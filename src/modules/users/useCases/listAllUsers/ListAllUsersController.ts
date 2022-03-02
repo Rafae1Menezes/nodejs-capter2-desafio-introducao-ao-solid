@@ -7,13 +7,19 @@ class ListAllUsersController {
 
   handle(request: Request, response: Response): Response {
     const { user_id } = request.headers;
-    const id = user_id.toString();
+    let id;
+
+    if (user_id) id = user_id.toString();
+    else id = "";
 
     try {
       const all = this.listAllUsersUseCase.execute({ user_id: id });
       return response.json(all);
     } catch (error) {
-      return response.status(400).json({ error: "mensagem do erro" });
+      return response.status(400).json({
+        error:
+          "Você precisa ser um adminstrador para listar todos os usuários.",
+      });
     }
   }
 }

@@ -1,0 +1,338 @@
+{ 
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "Essa é uma documentação sobre a Atlas API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "menezes@email.com"
+    }
+  },
+  "paths":{ 
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Criar Usuário",
+        "description": "Rota para criar um novo usuário",
+        "requestBody": {
+          "description": "Campos obrigatórios para criação de um usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Nome fake",
+                  "email": "fake@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "69eac83b-43ba-4b72-9b57-cc2bbc23acfc",
+                    "admin": false,
+                    "name": "Nome fake",
+                    "email": "fake@gmail.com",
+                    "created_at": "2022-03-02T13:23:28.172Z",
+                    "updated_at": "2022-03-02T13:23:28.172Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Já existe um usuário com esse e-mail.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Já existe um usuário com esse e-mail."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna todos os usuários",        
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "Id do usuáro admin em uuid",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "69eac83b-43ba-4b72-9b57-cc2bbc23acfc",
+                      "admin": false,
+                      "name": "Nome fake",
+                      "email": "fake@gmail.com",
+                      "created_at": "2022-03-02T13:23:28.172Z",
+                      "updated_at": "2022-03-02T13:23:28.172Z"
+                    },
+                    {
+                      "id": "69eac83b-43ba-4b72-9b57-cc2bbc23acfc",
+                      "admin": false,
+                      "name": "Outro fake",
+                      "email": "outro@gmail.com",
+                      "created_at": "2022-03-02T13:23:28.172Z",
+                      "updated_at": "2022-03-02T13:23:28.172Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário sem permissão ou Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Você precisa ser um adminstrador para listar todos os usuários."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }  
+    }, 
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna um usuário específico",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID do usuáro que se quer buscar",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "69eac83b-43ba-4b72-9b57-cc2bbc23acfc",
+                    "admin": false,
+                    "name": "Nome fake",
+                    "email": "fake@gmail.com",
+                    "created_at": "2022-03-02T13:23:28.172Z",
+                    "updated_at": "2022-03-02T13:23:28.172Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Usuário não encontrado."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Torna admin um usuário",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID do usuáro que se quer buscar",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "69eac83b-43ba-4b72-9b57-cc2bbc23acfc",
+                    "admin": false,
+                    "name": "Nome fake",
+                    "email": "fake@gmail.com",
+                    "created_at": "2022-03-02T13:23:28.172Z",
+                    "updated_at": "2022-03-02T13:23:28.172Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Usuário não encontrado."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
